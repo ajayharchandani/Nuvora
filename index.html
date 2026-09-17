@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nuvora — Investor Vision</title>
 <meta name="description" content="Nuvora — India's specialist home-office furniture brand. Online-first, globally scalable.">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#141310; --paper:#f6f1e8; --paper-2:#efe8da; --card:#fffdf8;
-    --line: rgba(20,19,16,0.14); --muted:#6b6357;
-    --accent:#c1602c; --accent-2:#8a3f1a; --green:#3f6b4b; --green-l:#eaf1ea;
-    --blue:#2a4d78; --red:#a4402f;
+    --ink:#152346; --paper:#f6f4ee; --paper-2:#ece8dc; --card:#fffdf8;
+    --line: rgba(21,35,70,0.14); --muted:#5c5f6b;
+    --accent:#a3813f; --accent-2:#7c5f2e; --green:#3f6b4b; --green-l:#eaf1ea;
+    --blue:#2e4f86; --red:#a4402f;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -55,17 +55,21 @@
 
   /* ---------------- LOGO BAR ---------------- */
   .logobar{ position:fixed; top:0; left:0; width:100%; z-index:40; display:flex; justify-content:space-between; align-items:center;
-    padding:22px 8vw; mix-blend-mode:difference; pointer-events:none; }
-  .logobar .wordmark{ font-family:'Fraunces',serif; font-weight:600; font-size:18px; letter-spacing:2px; color:#fff; }
-  .logobar .tagsmall{ font-size:10px; letter-spacing:2px; color:#fff; text-transform:uppercase; opacity:.85; }
+    padding:14px 8vw; pointer-events:none; }
+  .logobar .brand-chip{ background:var(--card); border:1px solid var(--line); border-radius:9px; padding:6px 12px;
+    box-shadow:0 6px 18px -10px rgba(21,35,70,0.35); display:flex; align-items:center; }
+  .logobar .brand-chip img{ height:26px; width:auto; display:block; }
+  .logobar .tagsmall{ font-size:10px; letter-spacing:2px; color:var(--ink); text-transform:uppercase; opacity:.75;
+    background:var(--card); border:1px solid var(--line); border-radius:9px; padding:9px 14px;
+    box-shadow:0 6px 18px -10px rgba(21,35,70,0.35); }
 
   /* ---------------- HERO ---------------- */
   .hero{ height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:0 8vw; position:relative; overflow:hidden; }
   .hero-bg{ position:absolute; inset:0; z-index:0; }
   .hero-bg svg{ width:100%; height:100%; }
   .orb{ position:absolute; border-radius:50%; filter:blur(60px); opacity:.55; z-index:0; will-change:transform; }
-  .orb1{ width:420px; height:420px; background:radial-gradient(circle,#e7b98c,transparent 70%); top:-120px; right:6vw; animation:orbfloat1 16s ease-in-out infinite; }
-  .orb2{ width:320px; height:320px; background:radial-gradient(circle,#c7d3c1,transparent 70%); bottom:-80px; right:22vw; animation:orbfloat2 20s ease-in-out infinite; }
+  .orb1{ width:420px; height:420px; background:radial-gradient(circle,#cbaa64,transparent 70%); top:-120px; right:6vw; animation:orbfloat1 16s ease-in-out infinite; }
+  .orb2{ width:320px; height:320px; background:radial-gradient(circle,#9fb0cf,transparent 70%); bottom:-80px; right:22vw; animation:orbfloat2 20s ease-in-out infinite; }
   @keyframes orbfloat1{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-30px,40px) scale(1.08); } }
   @keyframes orbfloat2{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(25px,-30px) scale(1.1); } }
   .hero-content{ position:relative; z-index:2; }
@@ -167,6 +171,17 @@
   .waterfall-note{ max-width:340px; font-size:13.5px; color:var(--muted); line-height:1.6; }
   .waterfall-note b{ color:var(--ink); }
 
+  /* ---------------- SWOT ---------------- */
+  .swot-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:52px; }
+  .swot-box{ border-radius:10px; padding:26px 28px; border:1px solid; }
+  .swot-box h4{ margin:0 0 14px 0; font-family:'Fraunces',serif; font-size:16px; text-transform:uppercase; letter-spacing:1px; }
+  .swot-box ul{ margin:0; padding-left:18px; font-size:13.5px; line-height:1.85; color:var(--ink); }
+  .swot-s{ background:#eef8f2; border-color:#b9e6cc; } .swot-s h4{ color:#0d7a3e; }
+  .swot-w{ background:#fdf3f3; border-color:#f6cfcf; } .swot-w h4{ color:#b02525; }
+  .swot-o{ background:#f2f6fb; border-color:#cdd9ec; } .swot-o h4{ color:var(--ink); }
+  .swot-t{ background:#fbf5ea; border-color:#e9d9b8; } .swot-t h4{ color:var(--accent-2); }
+  @media (max-width:800px){ .swot-grid{ grid-template-columns:1fr; } }
+
   /* ---------------- GLOBAL ---------------- */
   .flag-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:40px; }
   .flag-chip{ display:flex; align-items:center; gap:10px; padding:12px 20px; background:var(--card); border:1px solid var(--line); border-radius:30px; font-size:14px; font-weight:600; }
@@ -244,7 +259,7 @@
 <div class="progress" id="progressBar"></div>
 
 <div class="logobar">
-  <div class="wordmark">NUVORA</div>
+  <div class="brand-chip"><img src="assets/nuvora-logo.png" alt="Nuvora — New Spaces. New Living."></div>
   <div class="tagsmall">Investor Vision — 2026</div>
 </div>
 
@@ -257,6 +272,7 @@
   <a href="#economics" data-label="Economics"><span>Economics</span></a>
   <a href="#global" data-label="Global"><span>Global</span></a>
   <a href="#numbers" data-label="Numbers"><span>Numbers</span></a>
+  <a href="#swot" data-label="SWOT"><span>SWOT</span></a>
   <a href="#ask" data-label="The Ask"><span>The Ask</span></a>
 </nav>
 
@@ -266,12 +282,12 @@
     <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
       <defs>
         <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#efe6d6"/>
-          <stop offset="100%" stop-color="#f6f1e8"/>
+          <stop offset="0%" stop-color="#ece6d4"/>
+          <stop offset="100%" stop-color="#f6f4ee"/>
         </linearGradient>
       </defs>
       <rect width="1440" height="900" fill="url(#g1)"/>
-      <g id="deskline" stroke="#141310" stroke-opacity="0.08" stroke-width="2" fill="none">
+      <g id="deskline" stroke="#152346" stroke-opacity="0.09" stroke-width="2" fill="none">
         <path d="M -100 700 L 1600 700" />
         <rect x="180" y="520" width="360" height="14" rx="4"/>
         <rect x="200" y="534" width="18" height="166"/>
@@ -468,19 +484,34 @@
 <section id="global">
   <div class="section-tag">06 &middot; Global From Day One</div>
   <h2 class="big reveal">Built in India.<br>Sold to the world.</h2>
-  <p class="lede reveal">Beyond India, Nuvora lists directly on Amazon's global storefronts —
-    one brand, four marketplaces, immediate international reach.</p>
-  <div class="flag-row reveal">
-    <div class="flag-chip"><span class="dot"></span> Amazon.com — USA</div>
-    <div class="flag-chip"><span class="dot"></span> Amazon.co.uk — UK</div>
-    <div class="flag-chip"><span class="dot"></span> Amazon.de — Germany</div>
-    <div class="flag-chip"><span class="dot"></span> Amazon.ae — UAE</div>
+  <p class="lede reveal">Two parallel motions carry Nuvora past India's borders from year one —
+    both reporting under the same export revenue line.</p>
+  <div class="lane-grid reveal">
+    <div class="lane">
+      <div class="role">Route 1 &middot; Direct to Consumer</div>
+      <h3>Global Marketplaces</h3>
+      <div class="flag-row" style="margin-top:6px;">
+        <div class="flag-chip"><span class="dot"></span> Amazon.com — USA</div>
+        <div class="flag-chip"><span class="dot"></span> Amazon.co.uk — UK</div>
+        <div class="flag-chip"><span class="dot"></span> Amazon.de — Germany</div>
+        <div class="flag-chip"><span class="dot"></span> Amazon.ae — UAE</div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="role">Route 2 &middot; Direct to Trade</div>
+      <h3>Overseas Distributors</h3>
+      <ul>
+        <li>Bulk export to furniture &amp; office-supply distributors abroad</li>
+        <li>Container-load, contract-priced B2B shipments</li>
+        <li>Opens markets ahead of a retail-storefront presence</li>
+      </ul>
+    </div>
   </div>
   <div class="export-line reveal">
     Compact, flat-pack design isn't just an India cost advantage — it's an
     <b>export advantage</b>. The same low-dimensional-weight products that undercut offline
-    India pricing are cheap to freight abroad, letting Nuvora list globally without a
-    second manufacturing base.
+    India pricing are cheap to freight abroad — direct to shoppers via marketplaces, and in
+    bulk to distributors — letting Nuvora go global without a second manufacturing base.
   </div>
 </section>
 
@@ -532,9 +563,59 @@
   </div>
 </section>
 
+<!-- ======================= SWOT ======================= -->
+<section id="swot">
+  <div class="section-tag">08 &middot; SWOT Analysis</div>
+  <h2 class="big reveal">Where this wins. Where it's tested.</h2>
+  <p class="lede reveal">An unvarnished read on the plan — including the two findings the peer
+    benchmark and B2B dependency already flagged above.</p>
+  <div class="swot-grid reveal">
+    <div class="swot-box swot-s">
+      <h4>Strengths</h4>
+      <ul>
+        <li>Clear, defensible niche every large incumbent treats as secondary</li>
+        <li>Capital-efficient dual sourcing — Delhi ready-stock + Malaysia differentiation</li>
+        <li>DIY/flat-pack model exploits a real logistics-cost advantage</li>
+        <li>Multi-channel from day one — 5 marketplaces + D2C + B2B — cuts channel dependency</li>
+        <li>Riding a structural, government-documented demand tailwind, not a pandemic spike</li>
+      </ul>
+    </div>
+    <div class="swot-box swot-w">
+      <h4>Weaknesses</h4>
+      <ul>
+        <li>Zero brand trust or track record vs. Wakefit, Pepperfry, IKEA at launch</li>
+        <li>Malaysia import dependency carries duty, forex and lead-time exposure</li>
+        <li>Engineered-wood/DIY model must overcome durability scepticism</li>
+        <li>Thin capital base (₹1 Cr) limits ready-stock depth and loss-absorption</li>
+        <li>No proprietary IP yet — early catalogue is curated and easily copyable</li>
+      </ul>
+    </div>
+    <div class="swot-box swot-o">
+      <h4>Opportunities</h4>
+      <ul>
+        <li>Home-office category growing 8.5&ndash;11%+ CAGR within furniture overall</li>
+        <li>GeM government procurement — furniture an active, underexploited category</li>
+        <li>Online furniture market set to more than triple by 2034 off a small base</li>
+        <li>Shrinking urban home sizes structurally support compact-furniture demand</li>
+        <li>Corporate hybrid-work stipends open a B2B lane most competitors ignore</li>
+      </ul>
+    </div>
+    <div class="swot-box swot-t">
+      <h4>Threats</h4>
+      <ul>
+        <li>Better-capitalised Urban Ladder / Wakefit could extend into this niche</li>
+        <li>IKEA India already merchandises small-space home-office solutions at scale pricing</li>
+        <li>Marketplace fee structures can change unilaterally and compress margin</li>
+        <li>No published furniture CAC/RTO benchmarks — real costs could run worse than modelled</li>
+        <li>The 30%+ EBITDA target sits above every disclosed comparable margin found</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= THE ASK ======================= -->
 <section id="ask">
-  <div class="section-tag">08 &middot; Funding &amp; Scale</div>
+  <div class="section-tag">09 &middot; Funding &amp; Scale</div>
   <h2 class="big reveal">₹1 Crore. Deployed to outpace incumbents.</h2>
   <div class="fund-bar">
     <div class="fund-row"><div class="name">Inventory &amp; Working Capital</div><div class="track"><div class="fill" data-w="40" style="--w:40%;"></div></div><div class="pct">40%</div></div>
@@ -706,7 +787,7 @@ document.querySelectorAll(".fund-row .fill").forEach((el,i)=>{
 });
 
 /* Nav dots active state */
-const sections = ["hero","shift","market","products","model","economics","global","numbers","ask"];
+const sections = ["hero","shift","market","products","model","economics","global","numbers","swot","ask"];
 sections.forEach(id=>{
   ScrollTrigger.create({
     trigger: "#"+id, start:"top center", end:"bottom center",
