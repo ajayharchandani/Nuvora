@@ -36,7 +36,8 @@
     font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:12px;
   }
   .section-tag::before{ content:""; width:24px; height:24px; border-radius:50%; background:var(--paper);
-    border:1px solid var(--accent); display:inline-block; flex-shrink:0; }
+    border:1px solid var(--accent); display:inline-block; flex-shrink:0; transform:scale(0); transition:transform .5s cubic-bezier(.34,1.56,.64,1); }
+  .section-tag.dot-in::before{ transform:scale(1); }
   h2.big{ font-size:clamp(28px,4.4vw,54px); font-weight:600; line-height:1.1; margin:0 0 20px 0; letter-spacing:-0.5px; }
   p.lede{ font-size:clamp(15px,1.5vw,19px); color:var(--muted); max-width:660px; line-height:1.6; font-weight:400; }
   .kicker{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 8px 0; }
@@ -55,10 +56,12 @@
 
   /* ---------------- LOGO BAR ---------------- */
   .logobar{ position:fixed; top:0; left:0; width:100%; z-index:40; display:flex; justify-content:space-between; align-items:center;
-    padding:14px 8vw; pointer-events:none; }
-  .logobar .brand-chip{ background:var(--card); border:1px solid var(--line); border-radius:9px; padding:6px 12px;
-    box-shadow:0 6px 18px -10px rgba(21,35,70,0.35); display:flex; align-items:center; }
-  .logobar .brand-chip img{ height:26px; width:auto; display:block; }
+    padding:16px 8vw; pointer-events:none; }
+  .logobar .brand-chip{ background:var(--card); border:1px solid var(--line); border-radius:11px; padding:10px 18px;
+    box-shadow:0 10px 26px -12px rgba(21,35,70,0.4); display:flex; align-items:center; transition:transform .35s ease, box-shadow .35s ease; }
+  .logobar .brand-chip:hover{ transform:translateY(-2px); box-shadow:0 14px 32px -12px rgba(21,35,70,0.48); }
+  .logobar .brand-chip img{ height:46px; width:auto; display:block; }
+  @media (max-width:640px){ .logobar .brand-chip img{ height:36px; } }
   .logobar .tagsmall{ font-size:10px; letter-spacing:2px; color:var(--ink); text-transform:uppercase; opacity:.75;
     background:var(--card); border:1px solid var(--line); border-radius:9px; padding:9px 14px;
     box-shadow:0 6px 18px -10px rgba(21,35,70,0.35); }
@@ -67,6 +70,7 @@
   .hero{ height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:0 8vw; position:relative; overflow:hidden; }
   .hero-bg{ position:absolute; inset:0; z-index:0; }
   .hero-bg svg{ width:100%; height:100%; }
+  .orb-parallax{ position:absolute; inset:0; will-change:transform; }
   .orb{ position:absolute; border-radius:50%; filter:blur(60px); opacity:.55; z-index:0; will-change:transform; }
   .orb1{ width:420px; height:420px; background:radial-gradient(circle,#cbaa64,transparent 70%); top:-120px; right:6vw; animation:orbfloat1 16s ease-in-out infinite; }
   .orb2{ width:320px; height:320px; background:radial-gradient(circle,#9fb0cf,transparent 70%); bottom:-80px; right:22vw; animation:orbfloat2 20s ease-in-out infinite; }
@@ -78,17 +82,24 @@
   .hero h1 .line{ display:block; overflow:hidden; }
   .hero h1 .line span{ display:inline-block; will-change:transform; }
   .hero .sub{ font-size:clamp(16px,1.8vw,22px); color:var(--muted); max-width:560px; margin-top:26px; font-weight:400; }
+  .hero .brand-line{ display:flex; align-items:center; gap:16px; margin-top:32px; font-family:'Fraunces',serif; font-style:italic;
+    font-size:clamp(15px,1.6vw,19px); letter-spacing:0.3px; color:var(--accent-2); }
+  .hero .brand-line i{ width:38px; height:1px; background:var(--accent); display:inline-block; opacity:.7; flex-shrink:0; }
   .hero .scroll-cue{ position:absolute; bottom:36px; left:8vw; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; }
   .hero .scroll-cue .bar{ width:1px; height:34px; background:var(--muted); position:relative; overflow:hidden; }
   .hero .scroll-cue .bar i{ position:absolute; top:-100%; left:0; width:100%; height:100%; background:var(--accent); animation:scrollcue 1.8s ease-in-out infinite; }
   @keyframes scrollcue{ 0%{top:-100%;} 50%{top:0;} 100%{top:100%;} }
   .hero-kpis{ display:flex; gap:38px; margin-top:46px; flex-wrap:wrap; }
-  .hero-kpis .hk .v{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; }
+  .hero-kpis .hk{ transition:transform .35s ease; }
+  .hero-kpis .hk:hover{ transform:translateY(-4px); }
+  .hero-kpis .hk .v{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; transition:color .3s ease; }
+  .hero-kpis .hk:hover .v{ color:var(--accent); }
   .hero-kpis .hk .l{ font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:4px; }
 
   /* ---------------- STAT GRID ---------------- */
   .stat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px; border-radius:6px; overflow:hidden;}
-  .stat{ background:var(--card); padding:38px 28px; }
+  .stat{ background:var(--card); padding:38px 28px; transition:transform .4s ease, box-shadow .4s ease; position:relative; z-index:1; }
+  .stat:hover{ transform:translateY(-6px); box-shadow:0 20px 40px -22px rgba(21,35,70,0.35); }
   .stat .num{ font-family:'Fraunces',serif; font-size:clamp(34px,4vw,54px); font-weight:600; color:var(--accent); line-height:1; }
   .stat .lbl{ font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.4; }
   .stat .src{ font-size:9.5px; color:#a39c8d; margin-top:8px; }
@@ -128,7 +139,8 @@
 
   /* ---------------- DUAL LANE (business model) ---------------- */
   .lane-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line); border:1px solid var(--line); margin-top:50px; border-radius:8px; overflow:hidden;}
-  .lane{ background:var(--card); padding:40px 36px; }
+  .lane{ background:var(--card); padding:40px 36px; transition:transform .4s ease, box-shadow .4s ease; }
+  .lane:hover{ transform:translateY(-6px); box-shadow:0 20px 40px -22px rgba(21,35,70,0.32); }
   .lane h3{ font-size:24px; margin:0 0 10px 0; }
   .lane .role{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
   .lane ul{ padding-left:18px; margin:0; color:var(--muted); font-size:14px; line-height:2; }
@@ -173,7 +185,8 @@
 
   /* ---------------- SWOT ---------------- */
   .swot-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:52px; }
-  .swot-box{ border-radius:10px; padding:26px 28px; border:1px solid; }
+  .swot-box{ border-radius:10px; padding:26px 28px; border:1px solid; transition:transform .4s ease, box-shadow .4s ease; }
+  .swot-box:hover{ transform:translateY(-5px); box-shadow:0 18px 34px -20px rgba(21,35,70,0.3); }
   .swot-box h4{ margin:0 0 14px 0; font-family:'Fraunces',serif; font-size:16px; text-transform:uppercase; letter-spacing:1px; }
   .swot-box ul{ margin:0; padding-left:18px; font-size:13.5px; line-height:1.85; color:var(--ink); }
   .swot-s{ background:#eef8f2; border-color:#b9e6cc; } .swot-s h4{ color:#0d7a3e; }
@@ -296,8 +309,8 @@
         <rect x="960" y="360" width="120" height="100" rx="4"/>
       </g>
     </svg>
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
+    <div class="orb-parallax" id="orbP1"><div class="orb orb1"></div></div>
+    <div class="orb-parallax" id="orbP2"><div class="orb orb2"></div></div>
   </div>
   <div class="hero-content">
     <div class="eyebrow">Home Office &middot; Reimagined</div>
@@ -307,6 +320,7 @@
     </h1>
     <p class="sub">Nuvora is India's first specialist furniture brand for the home-office era —
       built online-first, priced to win, engineered to scale to the world.</p>
+    <div class="brand-line"><i></i>New Spaces. New Living.<i></i></div>
     <div class="hero-kpis">
       <div class="hk"><div class="v">₹1 Cr</div><div class="l">Funding Ask</div></div>
       <div class="hk"><div class="v">₹20 Cr</div><div class="l">Year-1 Target</div></div>
@@ -706,9 +720,31 @@ gsap.set(".hero h1 .line span", { yPercent: 110 });
 gsap.to(".hero h1 .line span", { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: 0.12, delay: 0.2 });
 gsap.fromTo(".hero .eyebrow", {opacity:0, y:10}, {opacity:1, y:0, duration:0.8, delay:0.1});
 gsap.fromTo(".hero .sub", {opacity:0, y:16}, {opacity:1, y:0, duration:1, delay:0.9});
-gsap.fromTo(".hero-kpis .hk", {opacity:0, y:16}, {opacity:1, y:0, duration:0.8, delay:1.1, stagger:0.08});
-gsap.fromTo(".hero .scroll-cue", {opacity:0}, {opacity:1, duration:1, delay:1.4});
+gsap.fromTo(".hero .brand-line", {opacity:0, y:14}, {opacity:1, y:0, duration:0.9, delay:1.0});
+gsap.fromTo(".hero-kpis .hk", {opacity:0, y:16}, {opacity:1, y:0, duration:0.8, delay:1.25, stagger:0.08});
+gsap.fromTo(".hero .scroll-cue", {opacity:0}, {opacity:1, duration:1, delay:1.5});
 gsap.to("#deskline", {opacity:1, duration:2, delay:0.3, ease:"power2.out"});
+
+/* Logo chip + investor tag entrance */
+gsap.fromTo(".logobar .brand-chip", {opacity:0, y:-16}, {opacity:1, y:0, duration:0.9, delay:0.15, ease:"power3.out"});
+gsap.fromTo(".logobar .tagsmall", {opacity:0, y:-16}, {opacity:1, y:0, duration:0.9, delay:0.3, ease:"power3.out"});
+
+/* Section-tag dot pop-in on scroll */
+document.querySelectorAll(".section-tag").forEach((el)=>{
+  ScrollTrigger.create({ trigger: el, start:"top 88%", once:true, onEnter: ()=> el.classList.add("dot-in") });
+});
+
+/* Subtle cursor-parallax on hero orbs — professional, low-key motion */
+const heroEl = document.querySelector(".hero");
+if (heroEl && window.matchMedia("(pointer:fine)").matches) {
+  const orb1 = document.querySelector("#orbP1"), orb2 = document.querySelector("#orbP2");
+  heroEl.addEventListener("mousemove", (e)=>{
+    const relX = (e.clientX / window.innerWidth) - 0.5;
+    const relY = (e.clientY / window.innerHeight) - 0.5;
+    gsap.to(orb1, {x: relX * -30, y: relY * -20, duration:1.2, ease:"power2.out", overwrite:"auto"});
+    gsap.to(orb2, {x: relX * 24, y: relY * 18, duration:1.2, ease:"power2.out", overwrite:"auto"});
+  });
+}
 
 /* Generic reveal-on-scroll */
 document.querySelectorAll(".reveal").forEach((el)=>{
