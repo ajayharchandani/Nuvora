@@ -12,9 +12,9 @@
 <style>
   :root{
     --ink:#141310; --paper:#f6f1e8; --paper-2:#efe8da; --card:#fffdf8;
-    --line: rgba(20,19,16,0.12); --muted:#6b6357;
+    --line: rgba(20,19,16,0.14); --muted:#6b6357;
     --accent:#c1602c; --accent-2:#8a3f1a; --green:#3f6b4b; --green-l:#eaf1ea;
-    --blue:#2a4d78;
+    --blue:#2a4d78; --red:#a4402f;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -24,19 +24,30 @@
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.serif{ font-family:'Fraunces', Georgia, serif; }
-  section{ position:relative; padding: 14vh 8vw; max-width:1400px; margin:0 auto; }
+  main.rail{ position:relative; }
+  main.rail::before{
+    content:""; position:absolute; left:calc(8vw + 12px); top:0; bottom:0; width:1px;
+    background:linear-gradient(var(--line),var(--line)); z-index:0;
+  }
+  @media (max-width:900px){ main.rail::before{ display:none; } }
+  section{ position:relative; padding: 11vh 8vw; max-width:1400px; margin:0 auto; z-index:1; }
   .section-tag{
     font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--accent);
-    font-weight:600; margin-bottom:18px; display:flex; align-items:center; gap:10px;
+    font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:12px;
   }
-  .section-tag::before{ content:""; width:26px; height:1px; background:var(--accent); display:inline-block; }
-  h2.big{ font-size:clamp(28px,4.6vw,58px); font-weight:600; line-height:1.08; margin:0 0 20px 0; letter-spacing:-0.5px; }
-  p.lede{ font-size:clamp(15px,1.5vw,19px); color:var(--muted); max-width:640px; line-height:1.6; font-weight:400; }
+  .section-tag::before{ content:""; width:24px; height:24px; border-radius:50%; background:var(--paper);
+    border:1px solid var(--accent); display:inline-block; flex-shrink:0; }
+  h2.big{ font-size:clamp(28px,4.4vw,54px); font-weight:600; line-height:1.1; margin:0 0 20px 0; letter-spacing:-0.5px; }
+  p.lede{ font-size:clamp(15px,1.5vw,19px); color:var(--muted); max-width:660px; line-height:1.6; font-weight:400; }
+  .kicker{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 8px 0; }
+
+  /* ---------------- SCROLL PROGRESS ---------------- */
+  .progress{ position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--accent-2),var(--accent)); z-index:60; }
 
   /* ---------------- NAV DOTS ---------------- */
-  .navdots{ position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:50; display:flex; flex-direction:column; gap:14px; }
+  .navdots{ position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:50; display:flex; flex-direction:column; gap:13px; }
   .navdots a{ width:8px; height:8px; border-radius:50%; background:rgba(20,19,16,0.22); display:block; transition:all .3s; position:relative; }
-  .navdots a.active{ background:var(--accent); transform:scale(1.5); }
+  .navdots a.active{ background:var(--accent); transform:scale(1.6); }
   .navdots a span{ position:absolute; right:18px; top:50%; transform:translateY(-50%); white-space:nowrap;
     font-size:10px; letter-spacing:1px; text-transform:uppercase; opacity:0; transition:opacity .2s; color:var(--ink); background:var(--card); padding:3px 8px; border-radius:3px; border:1px solid var(--line);}
   .navdots a:hover span{ opacity:1; }
@@ -52,19 +63,27 @@
   .hero{ height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:0 8vw; position:relative; overflow:hidden; }
   .hero-bg{ position:absolute; inset:0; z-index:0; }
   .hero-bg svg{ width:100%; height:100%; }
+  .orb{ position:absolute; border-radius:50%; filter:blur(60px); opacity:.55; z-index:0; will-change:transform; }
+  .orb1{ width:420px; height:420px; background:radial-gradient(circle,#e7b98c,transparent 70%); top:-120px; right:6vw; animation:orbfloat1 16s ease-in-out infinite; }
+  .orb2{ width:320px; height:320px; background:radial-gradient(circle,#c7d3c1,transparent 70%); bottom:-80px; right:22vw; animation:orbfloat2 20s ease-in-out infinite; }
+  @keyframes orbfloat1{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-30px,40px) scale(1.08); } }
+  @keyframes orbfloat2{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(25px,-30px) scale(1.1); } }
   .hero-content{ position:relative; z-index:2; }
   .hero .eyebrow{ font-size:12px; letter-spacing:4px; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:22px; }
-  .hero h1{ font-size:clamp(48px,10vw,132px); line-height:0.92; font-weight:600; margin:0; letter-spacing:-2px; }
+  .hero h1{ font-size:clamp(48px,9.6vw,124px); line-height:0.95; font-weight:600; margin:0; letter-spacing:-2px; }
   .hero h1 .line{ display:block; overflow:hidden; }
   .hero h1 .line span{ display:inline-block; will-change:transform; }
   .hero .sub{ font-size:clamp(16px,1.8vw,22px); color:var(--muted); max-width:560px; margin-top:26px; font-weight:400; }
-  .hero .scroll-cue{ position:absolute; bottom:40px; left:8vw; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; }
+  .hero .scroll-cue{ position:absolute; bottom:36px; left:8vw; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; }
   .hero .scroll-cue .bar{ width:1px; height:34px; background:var(--muted); position:relative; overflow:hidden; }
   .hero .scroll-cue .bar i{ position:absolute; top:-100%; left:0; width:100%; height:100%; background:var(--accent); animation:scrollcue 1.8s ease-in-out infinite; }
   @keyframes scrollcue{ 0%{top:-100%;} 50%{top:0;} 100%{top:100%;} }
+  .hero-kpis{ display:flex; gap:38px; margin-top:46px; flex-wrap:wrap; }
+  .hero-kpis .hk .v{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; }
+  .hero-kpis .hk .l{ font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:4px; }
 
   /* ---------------- STAT GRID ---------------- */
-  .stat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px; border-radius:2px; overflow:hidden;}
+  .stat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px; border-radius:6px; overflow:hidden;}
   .stat{ background:var(--card); padding:38px 28px; }
   .stat .num{ font-family:'Fraunces',serif; font-size:clamp(34px,4vw,54px); font-weight:600; color:var(--accent); line-height:1; }
   .stat .lbl{ font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.4; }
@@ -72,48 +91,87 @@
   @media (max-width:800px){ .stat-grid{ grid-template-columns:1fr; } }
 
   /* ---------------- MARKET CHART ---------------- */
-  .chart-row{ display:flex; gap:60px; align-items:flex-end; margin-top:60px; flex-wrap:wrap; }
-  .bars{ display:flex; align-items:flex-end; gap:40px; height:280px; }
+  .chart-row{ display:flex; gap:60px; align-items:flex-end; margin-top:56px; flex-wrap:wrap; }
+  .bars{ display:flex; align-items:flex-end; gap:40px; height:260px; }
   .bar-col{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
   .bar-col .barv{ width:76px; background:linear-gradient(180deg,var(--accent),var(--accent-2)); border-radius:4px 4px 0 0; height:var(--h); position:relative; }
   .bar-col .barv .tag{ position:absolute; top:-32px; left:50%; transform:translateX(-50%); font-family:'Fraunces',serif; font-weight:600; font-size:20px; white-space:nowrap; }
   .bar-col .yr{ margin-top:12px; font-size:12px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
   .market-note{ max-width:380px; }
 
-  /* ---------------- COMPETITOR STRIP ---------------- */
-  .comp-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:36px; }
-  .comp-chip{ padding:10px 20px; border:1px solid var(--line); border-radius:30px; font-size:13px; color:var(--muted); background:var(--card); opacity:.55; }
-  .comp-chip.nuvora{ background:var(--ink); color:var(--paper); opacity:1; font-weight:600; border-color:var(--ink); }
+  /* ---------------- COMPETITOR TABLE ---------------- */
+  .comp-table{ margin-top:56px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--card); }
+  .comp-table .row{ display:grid; grid-template-columns:1.3fr 1.6fr 1fr 1fr; gap:10px; padding:15px 20px; border-bottom:1px solid var(--line); align-items:center; }
+  .comp-table .row:last-child{ border-bottom:none; }
+  .comp-table .row.head{ background:var(--paper-2); font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:700; }
+  .comp-table .row.nuvora{ background:var(--ink); color:var(--paper); }
+  .comp-table .brand{ font-weight:700; font-family:'Fraunces',serif; font-size:16px; }
+  .comp-table .cell{ font-size:13px; color:var(--muted); }
+  .comp-table .row.nuvora .cell{ color:#d8d2c4; }
+  .comp-table .tick{ color:var(--green); font-weight:700; }
+  .comp-table .row.nuvora .tick{ color:#8fd6a8; }
+  .comp-table .cross{ color:#b3aca0; }
+  @media (max-width:760px){ .comp-table .row{ grid-template-columns:1fr 1fr; row-gap:4px; } .comp-table .cell:nth-child(2){ grid-column:1 / -1; } }
 
   /* ---------------- PRODUCT GALLERY ---------------- */
-  .gallery-scroll{ display:flex; gap:22px; overflow-x:auto; padding:30px 0 20px 0; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
+  .gallery-scroll{ display:flex; gap:22px; overflow-x:auto; padding:30px 4px 20px 4px; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
   .gallery-scroll::-webkit-scrollbar{ height:6px; }
   .gallery-scroll::-webkit-scrollbar-thumb{ background:var(--line); border-radius:6px; }
-  .reel-card{ flex:0 0 auto; width:270px; scroll-snap-align:start; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .reel-card{ flex:0 0 auto; width:270px; scroll-snap-align:start; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; box-shadow:0 10px 30px -18px rgba(20,19,16,0.25); }
   .reel-card .reel-head{ padding:12px 14px 0 14px; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); font-weight:600; }
   .reel-card .embed-wrap{ padding:8px; min-height:380px; }
   .reel-card blockquote.instagram-media{ margin:0 !important; width:100% !important; min-width:0 !important; }
 
   /* ---------------- DUAL LANE (business model) ---------------- */
-  .lane-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line); border:1px solid var(--line); margin-top:50px; border-radius:4px; overflow:hidden;}
-  .lane{ background:var(--card); padding:44px 38px; }
-  .lane h3{ font-size:26px; margin:0 0 10px 0; }
+  .lane-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line); border:1px solid var(--line); margin-top:50px; border-radius:8px; overflow:hidden;}
+  .lane{ background:var(--card); padding:40px 36px; }
+  .lane h3{ font-size:24px; margin:0 0 10px 0; }
   .lane .role{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
   .lane ul{ padding-left:18px; margin:0; color:var(--muted); font-size:14px; line-height:2; }
   @media (max-width:800px){ .lane-grid{ grid-template-columns:1fr; } }
 
-  .channel-row{ display:flex; gap:1px; margin-top:16px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden;}
-  .channel{ flex:1; background:var(--card); padding:26px 20px; text-align:center; }
-  .channel .pct{ font-family:'Fraunces',serif; font-size:30px; font-weight:600; color:var(--blue); }
-  .channel .name{ font-size:12px; color:var(--muted); margin-top:6px; text-transform:uppercase; letter-spacing:1px; }
+  .channel-row{ display:flex; gap:1px; margin-top:16px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  .channel{ flex:1; background:var(--card); padding:24px 20px; text-align:center; }
+  .channel .pct{ font-family:'Fraunces',serif; font-size:28px; font-weight:600; color:var(--blue); }
+  .channel .name{ font-size:11.5px; color:var(--muted); margin-top:6px; text-transform:uppercase; letter-spacing:1px; }
 
-  /* ---------------- GLOBAL MAP ---------------- */
-  .map-wrap{ margin-top:50px; position:relative; }
-  .map-wrap svg{ width:100%; height:auto; display:block; }
+  /* ---------------- ROADMAP STEPPER ---------------- */
+  .roadmap{ margin-top:56px; }
+  .roadmap .steps{ display:flex; gap:0; position:relative; flex-wrap:wrap; }
+  .rstep{ flex:1; min-width:150px; position:relative; padding:0 16px 0 0; }
+  .rstep .rline{ height:3px; background:var(--line); border-radius:2px; margin-bottom:16px; position:relative; overflow:hidden; }
+  .rstep .rline i{ position:absolute; inset:0; background:linear-gradient(90deg,var(--accent-2),var(--accent)); width:var(--w,100%); border-radius:2px; }
+  .rstep .rn{ font-family:'Fraunces',serif; font-weight:600; color:var(--accent); font-size:13px; }
+  .rstep h4{ margin:6px 0 4px 0; font-size:14.5px; }
+  .rstep p{ margin:0; font-size:12px; color:var(--muted); line-height:1.5; }
+  @media (max-width:900px){ .roadmap .steps{ flex-direction:column; } .rstep{ padding-right:0; } }
+
+  /* ---------------- UNIT ECONOMICS ---------------- */
+  .econ-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:52px; }
+  .econ-card{ background:var(--card); padding:30px 26px; }
+  .econ-card .ename{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:14px; }
+  .econ-card .erow{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed var(--line); font-size:13.5px; }
+  .econ-card .erow:last-child{ border-bottom:none; }
+  .econ-card .erow b{ font-family:'Fraunces',serif; font-size:15px; }
+  @media (max-width:800px){ .econ-grid{ grid-template-columns:1fr; } }
+
+  .waterfall-wrap{ margin-top:60px; display:flex; gap:56px; flex-wrap:wrap; align-items:flex-end; }
+  .waterfall-scroll{ max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .waterfall{ display:flex; gap:22px; }
+  .wcol{ width:78px; height:230px; flex-shrink:0; display:flex; flex-direction:column-reverse; align-items:stretch; }
+  .wcol .wspacer{ height:0; flex-shrink:0; }
+  .wcol .wbar{ border-radius:4px 4px 0 0; position:relative; height:0; }
+  .wcol .wbar .wv{ position:absolute; top:-26px; left:50%; transform:translateX(-50%); font-size:13px; font-weight:700; white-space:nowrap; font-family:'Fraunces',serif; }
+  .wlabels{ display:flex; gap:22px; margin-top:10px; }
+  .wlabels div{ width:78px; flex-shrink:0; font-size:10.5px; color:var(--muted); text-align:center; line-height:1.3; text-transform:uppercase; letter-spacing:.4px; }
+  .waterfall-note{ max-width:340px; font-size:13.5px; color:var(--muted); line-height:1.6; }
+  .waterfall-note b{ color:var(--ink); }
+
+  /* ---------------- GLOBAL ---------------- */
   .flag-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:40px; }
   .flag-chip{ display:flex; align-items:center; gap:10px; padding:12px 20px; background:var(--card); border:1px solid var(--line); border-radius:30px; font-size:14px; font-weight:600; }
   .flag-chip .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); }
-  .export-line{ margin-top:34px; padding:26px 30px; background:var(--ink); color:var(--paper); border-radius:6px; font-family:'Fraunces',serif; font-size:clamp(17px,2vw,23px); line-height:1.5; }
+  .export-line{ margin-top:34px; padding:26px 30px; background:var(--ink); color:var(--paper); border-radius:8px; font-family:'Fraunces',serif; font-size:clamp(17px,2vw,23px); line-height:1.5; }
   .export-line b{ color:#f0b98a; }
 
   /* ---------------- FINANCIALS ---------------- */
@@ -127,6 +185,16 @@
   .ebitda-badge .v{ font-family:'Fraunces',serif; font-size:44px; font-weight:600; color:var(--green); }
   .ebitda-badge .l{ font-size:12px; color:var(--muted); margin-top:6px; }
 
+  .peer-wrap{ margin-top:64px; }
+  .peer-row{ display:flex; align-items:center; gap:16px; margin-bottom:14px; }
+  .peer-row .pname{ width:170px; flex-shrink:0; font-size:13px; color:var(--muted); }
+  .peer-row.is-nuvora .pname{ color:var(--ink); font-weight:700; }
+  .peer-track{ position:relative; flex:1; height:26px; }
+  .peer-baseline{ position:absolute; left:50%; top:-4px; bottom:-4px; width:1px; background:var(--line); }
+  .peer-bar{ position:absolute; top:3px; bottom:3px; border-radius:4px; width:0; }
+  .peer-bar .pv{ position:absolute; top:50%; transform:translateY(-50%); font-size:12px; font-weight:700; white-space:nowrap; }
+  .peer-note{ margin-top:18px; font-size:12.5px; color:var(--muted); max-width:560px; line-height:1.6; }
+
   /* ---------------- USE OF FUNDS ---------------- */
   .fund-bar{ margin-top:44px; }
   .fund-row{ display:flex; align-items:center; gap:18px; margin-bottom:16px; }
@@ -135,7 +203,7 @@
   .fund-row .fill{ height:100%; width:var(--w); background:linear-gradient(90deg,var(--accent-2),var(--accent)); border-radius:6px; }
   .fund-row .pct{ width:50px; text-align:right; font-weight:600; font-size:14px; flex-shrink:0; }
 
-  .scale-eq{ margin-top:60px; display:flex; align-items:center; flex-wrap:wrap; gap:18px; font-family:'Fraunces',serif; font-size:clamp(16px,2.4vw,26px); }
+  .scale-eq{ margin-top:56px; display:flex; align-items:center; flex-wrap:wrap; gap:18px; font-family:'Fraunces',serif; font-size:clamp(15px,2.2vw,24px); }
   .scale-eq .box{ background:var(--card); border:1px solid var(--line); padding:16px 22px; border-radius:8px; }
   .scale-eq .box.hi{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
   .scale-eq .arrow{ color:var(--muted); font-size:20px; }
@@ -165,11 +233,15 @@
     .scale-eq{ flex-direction:column; align-items:flex-start; }
     .scale-eq .arrow{ transform:rotate(90deg); margin-left:20px; }
     .channel-row{ flex-direction:column; }
-    section{ padding:10vh 6vw; }
+    section{ padding:9vh 6vw; }
+    .peer-row .pname{ width:100px; font-size:11.5px; }
+    .waterfall-wrap{ gap:30px; }
   }
 </style>
 </head>
 <body>
+
+<div class="progress" id="progressBar"></div>
 
 <div class="logobar">
   <div class="wordmark">NUVORA</div>
@@ -182,6 +254,7 @@
   <a href="#market" data-label="Market"><span>Market</span></a>
   <a href="#products" data-label="Products"><span>Products</span></a>
   <a href="#model" data-label="Model"><span>Model</span></a>
+  <a href="#economics" data-label="Economics"><span>Economics</span></a>
   <a href="#global" data-label="Global"><span>Global</span></a>
   <a href="#numbers" data-label="Numbers"><span>Numbers</span></a>
   <a href="#ask" data-label="The Ask"><span>The Ask</span></a>
@@ -207,6 +280,8 @@
         <rect x="960" y="360" width="120" height="100" rx="4"/>
       </g>
     </svg>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
   </div>
   <div class="hero-content">
     <div class="eyebrow">Home Office &middot; Reimagined</div>
@@ -216,9 +291,17 @@
     </h1>
     <p class="sub">Nuvora is India's first specialist furniture brand for the home-office era —
       built online-first, priced to win, engineered to scale to the world.</p>
+    <div class="hero-kpis">
+      <div class="hk"><div class="v">₹1 Cr</div><div class="l">Funding Ask</div></div>
+      <div class="hk"><div class="v">₹20 Cr</div><div class="l">Year-1 Target</div></div>
+      <div class="hk"><div class="v">~30%</div><div class="l">EBITDA Target</div></div>
+      <div class="hk"><div class="v">50%</div><div class="l">YoY, Bootstrapped</div></div>
+    </div>
   </div>
   <div class="scroll-cue"><div class="bar"><i></i></div>Scroll</div>
 </section>
+
+<main class="rail">
 
 <!-- ======================= WHY NOW ======================= -->
 <section id="shift">
@@ -228,17 +311,17 @@
     presentable workspace, inside a home that was never built to hold one.</p>
   <div class="stat-grid">
     <div class="stat reveal">
-      <div class="num"><span class="cu" data-target="23.5" data-suffix="M" data-decimals="1">0</span></div>
+      <div class="num"><span class="cu" data-target="23.5" data-suffix="M" data-decimals="1">23.5M</span></div>
       <div class="lbl">India's gig &amp; platform workforce by 2029-30, up from 7.7M — a Government of India projection</div>
       <div class="src">Source: NITI Aayog, 2022</div>
     </div>
     <div class="stat reveal">
-      <div class="num"><span class="cu" data-target="41" data-suffix="%">0</span></div>
+      <div class="num"><span class="cu" data-target="41" data-suffix="%">41%</span></div>
       <div class="lbl">of India's full-time employees now work hybrid or fully remote</div>
       <div class="src">Source: WFHResearch / DeskTime, via Forbes Advisor India</div>
     </div>
     <div class="stat reveal">
-      <div class="num">&minus;<span class="cu" data-target="27" data-suffix="%">0</span></div>
+      <div class="num">&minus;<span class="cu" data-target="27" data-suffix="%">27%</span></div>
       <div class="lbl">average flat size, India's top 7 cities, in just 5 years</div>
       <div class="src">Source: Anarock Property Consultants, 2019</div>
     </div>
@@ -252,28 +335,30 @@
   <div class="chart-row">
     <div class="bars">
       <div class="bar-col">
-        <div class="barv" style="--h:110px;"><span class="tag">$1.9B</span></div>
+        <div class="barv" style="--h:105px;"><span class="tag">$1.9B</span></div>
         <div class="yr">2025</div>
       </div>
       <div class="bar-col">
-        <div class="barv" style="--h:280px;"><span class="tag">$6.0B</span></div>
+        <div class="barv" style="--h:260px;"><span class="tag">$6.0B</span></div>
         <div class="yr">2034E</div>
       </div>
     </div>
     <div class="market-note">
       <p class="lede reveal" style="margin-top:0;">India's online furniture market, IMARC Group (2025).
-        Every large player — Wakefit, Urban Ladder, Pepperfry, IKEA — treats home-office as one category
-        among dozens. None has made it the whole brand.</p>
+        Every large player treats home-office as one category among dozens. None has made it the whole brand.</p>
     </div>
   </div>
-  <div class="comp-row reveal">
-    <div class="comp-chip">Wakefit</div>
-    <div class="comp-chip">Urban Ladder</div>
-    <div class="comp-chip">Pepperfry</div>
-    <div class="comp-chip">IKEA India</div>
-    <div class="comp-chip">Godrej Interio</div>
-    <div class="comp-chip">Nilkamal</div>
-    <div class="comp-chip nuvora">Nuvora — The Specialist</div>
+  <p class="kicker reveal" style="margin-top:52px;">Who else is in the room</p>
+  <div class="comp-table reveal">
+    <div class="row head">
+      <div>Brand</div><div>Core focus</div><div>Home-office specialist</div><div>Price position</div>
+    </div>
+    <div class="row"><div class="brand cell" style="color:var(--ink);">Wakefit</div><div class="cell">Mattresses &amp; broad home furniture</div><div class="cell cross">&#10005; No</div><div class="cell">Value</div></div>
+    <div class="row"><div class="brand cell" style="color:var(--ink);">Urban Ladder</div><div class="cell">Full-home furniture, design-led</div><div class="cell cross">&#10005; No</div><div class="cell">Premium</div></div>
+    <div class="row"><div class="brand cell" style="color:var(--ink);">Pepperfry</div><div class="cell">Marketplace, everything home</div><div class="cell cross">&#10005; No</div><div class="cell">Value&ndash;Mid</div></div>
+    <div class="row"><div class="brand cell" style="color:var(--ink);">IKEA India</div><div class="cell">Global broad catalogue</div><div class="cell" style="color:var(--muted);">~ Partial</div><div class="cell">Value&ndash;Mid</div></div>
+    <div class="row"><div class="brand cell" style="color:var(--ink);">Godrej Interio / Nilkamal</div><div class="cell">Broad, offline-led manufacturing</div><div class="cell cross">&#10005; No</div><div class="cell">Value</div></div>
+    <div class="row nuvora"><div class="brand">Nuvora</div><div class="cell">Home-office, 100% of catalogue</div><div class="cell tick">&#10003; Yes — only focus</div><div class="cell">Mid&ndash;Premium</div></div>
   </div>
 </section>
 
@@ -290,6 +375,8 @@
 <section id="model">
   <div class="section-tag">04 &middot; Business Model</div>
   <h2 class="big reveal">Two sourcing lanes. One catalogue.</h2>
+  <p class="lede reveal">Fast-moving basics fund the differentiated, higher-margin range — an
+    asset-light structure with room to grow into private label.</p>
   <div class="lane-grid">
     <div class="lane reveal">
       <div class="role">Fast Lane</div>
@@ -315,11 +402,71 @@
     <div class="channel"><div class="pct">20%</div><div class="name">D2C — Shopify</div></div>
     <div class="channel"><div class="pct">36%</div><div class="name">B2B &amp; Institutional</div></div>
   </div>
+  <p class="kicker reveal" style="margin-top:52px;">Five-stage path from reseller to brand</p>
+  <div class="roadmap reveal">
+    <div class="steps">
+      <div class="rstep"><div class="rline"><i style="--w:100%;"></i></div><div class="rn">01</div><h4>Curated catalogue</h4><p>Top-25 SKUs, dropshipping / asset-light</p></div>
+      <div class="rstep"><div class="rline"><i style="--w:100%;"></i></div><div class="rn">02</div><h4>Validate winners</h4><p>Sales, reviews &amp; margin data by SKU</p></div>
+      <div class="rstep"><div class="rline"><i style="--w:75%;"></i></div><div class="rn">03</div><h4>Private label</h4><p>Own branding on proven bestsellers</p></div>
+      <div class="rstep"><div class="rline"><i style="--w:45%;"></i></div><div class="rn">04</div><h4>Exclusive design</h4><p>Nuvora-only SKUs, higher margin</p></div>
+      <div class="rstep"><div class="rline"><i style="--w:20%;"></i></div><div class="rn">05</div><h4>Own ecosystem</h4><p>Proprietary multifunctional product line</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= UNIT ECONOMICS ======================= -->
+<section id="economics">
+  <div class="section-tag">05 &middot; Unit Economics</div>
+  <h2 class="big reveal">Same revenue, three very different margins.</h2>
+  <p class="lede reveal">Channel mix — not category — is what makes the EBITDA target work. B2B and
+    institutional orders carry low acquisition cost and higher ticket size; marketplaces bring volume
+    at a thinner margin.</p>
+  <div class="econ-grid reveal">
+    <div class="econ-card">
+      <div class="ename">Marketplaces</div>
+      <div class="erow"><span>Avg. order value</span><b>₹7,000</b></div>
+      <div class="erow"><span>Contribution margin</span><b>32%</b></div>
+      <div class="erow"><span>Share of Year-1 revenue</span><b>44%</b></div>
+    </div>
+    <div class="econ-card">
+      <div class="ename">D2C — Shopify</div>
+      <div class="erow"><span>Avg. order value</span><b>₹9,500</b></div>
+      <div class="erow"><span>Contribution margin</span><b>37%</b></div>
+      <div class="erow"><span>Share of Year-1 revenue</span><b>20%</b></div>
+    </div>
+    <div class="econ-card">
+      <div class="ename">B2B &amp; Institutional</div>
+      <div class="erow"><span>Avg. order value</span><b>₹1,20,000</b></div>
+      <div class="erow"><span>Contribution margin</span><b>45%</b></div>
+      <div class="erow"><span>Share of Year-1 revenue</span><b>36%</b></div>
+    </div>
+  </div>
+
+  <p class="kicker reveal" style="margin-top:60px;">Revenue to EBITDA — Year 1 plan</p>
+  <div class="waterfall-wrap reveal">
+    <div class="waterfall-scroll">
+      <div class="waterfall">
+        <div class="wcol"><div class="wspacer" style="height:0px;"></div><div class="wbar" data-h="205" style="--h:205px; background:var(--blue);"><span class="wv">100%</span></div></div>
+        <div class="wcol"><div class="wspacer" style="height:77px;"></div><div class="wbar" data-h="128" style="--h:128px; background:#9a9488;"><span class="wv">&minus;62.3%</span></div></div>
+        <div class="wcol"><div class="wspacer" style="height:0px;"></div><div class="wbar" data-h="77" style="--h:77px; background:var(--accent);"><span class="wv">37.7%</span></div></div>
+        <div class="wcol"><div class="wspacer" style="height:61px;"></div><div class="wbar" data-h="16" style="--h:16px; background:#9a9488;"><span class="wv">&minus;8.0%</span></div></div>
+        <div class="wcol"><div class="wspacer" style="height:0px;"></div><div class="wbar" data-h="61" style="--h:61px; background:var(--green);"><span class="wv">29.7%</span></div></div>
+      </div>
+      <div class="wlabels">
+        <div>Revenue</div><div>Variable costs</div><div>Contribution margin</div><div>Fixed opex</div><div>EBITDA</div>
+      </div>
+    </div>
+    <div class="waterfall-note">
+      Variable costs (COGS, marketplace fees, logistics, CAC) take out <b>62.3%</b> of revenue, leaving a
+      <b>37.7% contribution margin</b>. An asset-light <b>8% fixed-opex</b> base — no warehouses, no showroom
+      lease — is what lets that convert to a <b>~29.7% EBITDA</b> target.
+    </div>
+  </div>
 </section>
 
 <!-- ======================= GLOBAL ======================= -->
 <section id="global">
-  <div class="section-tag">05 &middot; Global From Day One</div>
+  <div class="section-tag">06 &middot; Global From Day One</div>
   <h2 class="big reveal">Built in India.<br>Sold to the world.</h2>
   <p class="lede reveal">Beyond India, Nuvora lists directly on Amazon's global storefronts —
     one brand, four marketplaces, immediate international reach.</p>
@@ -339,7 +486,7 @@
 
 <!-- ======================= NUMBERS ======================= -->
 <section id="numbers">
-  <div class="section-tag">06 &middot; The Numbers</div>
+  <div class="section-tag">07 &middot; The Numbers</div>
   <h2 class="big reveal">₹20 Cr → ₹45 Cr in three years.</h2>
   <div class="fin-grid">
     <div class="growth-bars">
@@ -348,15 +495,46 @@
       <div class="gb" data-h="200" style="--h:200px; background:linear-gradient(180deg,#3f6b4b,#274a30);"><span class="v">₹45 Cr</span><span class="yoy">+50% YoY</span><div class="lbl2" style="position:absolute;top:100%;width:100%;">Year 3</div></div>
     </div>
     <div class="ebitda-badge reveal">
-      <div class="v"><span class="cu" data-target="30" data-suffix="%">0</span></div>
+      <div class="v"><span class="cu" data-target="30" data-suffix="%">30%</span></div>
       <div class="l">Target Year-1 EBITDA margin — asset-light, B2B-weighted, no legacy overhead</div>
     </div>
+  </div>
+
+  <p class="kicker reveal" style="margin-top:70px;">How that compares to disclosed India furniture peers</p>
+  <div class="peer-wrap reveal">
+    <div class="peer-row">
+      <div class="pname">Pepperfry <span style="opacity:.6;">FY23</span></div>
+      <div class="peer-track"><div class="peer-baseline"></div>
+        <div class="peer-bar neg" data-pct="46.9" style="background:var(--red); right:50%;"><span class="pv" style="right:calc(100% + 8px); color:var(--red);">&minus;30.0%</span></div>
+      </div>
+    </div>
+    <div class="peer-row">
+      <div class="pname">Wakefit <span style="opacity:.6;">9M FY25</span></div>
+      <div class="peer-track"><div class="peer-baseline"></div>
+        <div class="peer-bar" data-pct="12.3" style="background:#9a9488; left:50%;"><span class="pv" style="left:calc(100% + 8px); color:var(--muted);">7.9%</span></div>
+      </div>
+    </div>
+    <div class="peer-row">
+      <div class="pname">Nilkamal <span style="opacity:.6;">Q1 FY27</span></div>
+      <div class="peer-track"><div class="peer-baseline"></div>
+        <div class="peer-bar" data-pct="14.2" style="background:#9a9488; left:50%;"><span class="pv" style="left:calc(100% + 8px); color:var(--muted);">9.1%</span></div>
+      </div>
+    </div>
+    <div class="peer-row is-nuvora">
+      <div class="pname">Nuvora <span style="opacity:.6;">Year-1 plan</span></div>
+      <div class="peer-track"><div class="peer-baseline"></div>
+        <div class="peer-bar" data-pct="46.4" style="background:var(--green); left:50%;"><span class="pv" style="left:calc(100% + 8px); color:var(--green); font-weight:800;">29.7%</span></div>
+      </div>
+    </div>
+    <p class="peer-note">Nuvora's 30%+ EBITDA target sits well above every disclosed India furniture peer
+      margin — flagged explicitly to investors as the plan's key execution risk, resting on the
+      B2B-weighted channel mix and lean fixed-cost base above.</p>
   </div>
 </section>
 
 <!-- ======================= THE ASK ======================= -->
 <section id="ask">
-  <div class="section-tag">07 &middot; Funding &amp; Scale</div>
+  <div class="section-tag">08 &middot; Funding &amp; Scale</div>
   <h2 class="big reveal">₹1 Crore. Deployed to outpace incumbents.</h2>
   <div class="fund-bar">
     <div class="fund-row"><div class="name">Inventory &amp; Working Capital</div><div class="track"><div class="fill" data-w="40" style="--w:40%;"></div></div><div class="pct">40%</div></div>
@@ -377,6 +555,8 @@
     better-funded, broad-catalogue competitors.</p>
 </section>
 
+</main>
+
 <!-- ======================= CLOSING ======================= -->
 <section class="closing" id="closing">
   <div class="section-tag" style="color:#f0b98a;">The Vision</div>
@@ -393,7 +573,7 @@
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/ScrollTrigger.min.js"></script>
 
-<!-- Product gallery + animations are independent scripts: if GSAP fails to
+<!-- Product gallery + progress bar are independent scripts: if GSAP fails to
      load for any reason, the gallery still renders and the page (styled
      visible-by-default above) stays fully readable — only the motion is lost. -->
 <script>
@@ -422,6 +602,17 @@ const igScript = document.createElement("script");
 igScript.src = "https://www.instagram.com/embed.js";
 igScript.async = true;
 document.body.appendChild(igScript);
+
+/* Scroll progress bar — plain scroll listener, no GSAP dependency */
+const progressEl = document.getElementById("progressBar");
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = h.scrollTop;
+  const max = h.scrollHeight - h.clientHeight;
+  progressEl.style.width = (max > 0 ? (scrolled / max) * 100 : 0) + "%";
+}
+window.addEventListener("scroll", updateProgress, {passive:true});
+updateProgress();
 </script>
 
 <script>
@@ -434,6 +625,7 @@ gsap.set(".hero h1 .line span", { yPercent: 110 });
 gsap.to(".hero h1 .line span", { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: 0.12, delay: 0.2 });
 gsap.fromTo(".hero .eyebrow", {opacity:0, y:10}, {opacity:1, y:0, duration:0.8, delay:0.1});
 gsap.fromTo(".hero .sub", {opacity:0, y:16}, {opacity:1, y:0, duration:1, delay:0.9});
+gsap.fromTo(".hero-kpis .hk", {opacity:0, y:16}, {opacity:1, y:0, duration:0.8, delay:1.1, stagger:0.08});
 gsap.fromTo(".hero .scroll-cue", {opacity:0}, {opacity:1, duration:1, delay:1.4});
 gsap.to("#deskline", {opacity:1, duration:2, delay:0.3, ease:"power2.out"});
 
@@ -451,12 +643,13 @@ gsap.utils.toArray(".stat").forEach((el,i)=>{
     scrollTrigger:{ trigger:"#shift .stat-grid", start:"top 80%" }});
 });
 
-/* Count-up numbers */
+/* Count-up numbers — reset to 0 only now that JS is confirmed running */
 document.querySelectorAll(".cu").forEach((el)=>{
   const target = parseFloat(el.dataset.target);
   const decimals = parseInt(el.dataset.decimals || "0");
   const suffix = el.dataset.suffix || "";
   const obj = {v:0};
+  el.textContent = "0" + suffix;
   ScrollTrigger.create({
     trigger: el, start:"top 88%", once:true,
     onEnter: ()=> gsap.to(obj, {v:target, duration:1.6, ease:"power2.out",
@@ -480,6 +673,30 @@ document.querySelectorAll(".growth-bars .gb").forEach((el)=>{
     onEnter: ()=> gsap.to(el, {height:h, duration:1.4, ease:"power3.out"}) });
 });
 
+/* Waterfall bars (unit economics bridge) */
+document.querySelectorAll(".wcol .wbar").forEach((el)=>{
+  const h = el.dataset.h + "px";
+  gsap.set(el, {height:0});
+  ScrollTrigger.create({ trigger: el, start:"top 85%", once:true,
+    onEnter: ()=> gsap.to(el, {height:h, duration:1.2, ease:"power3.out"}) });
+});
+
+/* Peer comparison bars */
+document.querySelectorAll(".peer-bar").forEach((el,i)=>{
+  const pct = el.dataset.pct + "%";
+  gsap.set(el, {width:0});
+  ScrollTrigger.create({ trigger: el, start:"top 90%", once:true,
+    onEnter: ()=> gsap.to(el, {width:pct, duration:1.1, delay:i*0.1, ease:"power3.out"}) });
+});
+
+/* Roadmap step lines */
+document.querySelectorAll(".rstep .rline i").forEach((el,i)=>{
+  const w = getComputedStyle(el).getPropertyValue('--w');
+  gsap.set(el, {width:0});
+  ScrollTrigger.create({ trigger: el, start:"top 90%", once:true,
+    onEnter: ()=> gsap.to(el, {width:w, duration:1, delay:i*0.08, ease:"power3.out"}) });
+});
+
 /* Use of funds bars */
 document.querySelectorAll(".fund-row .fill").forEach((el,i)=>{
   const w = el.dataset.w + "%";
@@ -488,14 +705,8 @@ document.querySelectorAll(".fund-row .fill").forEach((el,i)=>{
     onEnter: ()=> gsap.to(el, {width:w, duration:1.2, delay:i*0.08, ease:"power3.out"}) });
 });
 
-/* Competitor chips stagger */
-gsap.utils.toArray(".comp-chip").forEach((el,i)=>{
-  gsap.fromTo(el, {opacity:0, y:10}, {opacity: el.classList.contains('nuvora')?1:0.55, y:0, duration:0.5, delay:i*0.06,
-    scrollTrigger:{ trigger:".comp-row", start:"top 88%" }});
-});
-
 /* Nav dots active state */
-const sections = ["hero","shift","market","products","model","global","numbers","ask"];
+const sections = ["hero","shift","market","products","model","economics","global","numbers","ask"];
 sections.forEach(id=>{
   ScrollTrigger.create({
     trigger: "#"+id, start:"top center", end:"bottom center",
